@@ -20,14 +20,8 @@
       gap: 20px;
     }
     .ar-button {
-      width: 60px;
-      height: 60px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      border: none;
-      background-color: transparent;
-      cursor: pointer;
+      width: 60px; height: 60px; background-size: contain; background-repeat: no-repeat;
+      background-position: center; border: none; background-color: transparent; cursor: pointer;
       transition: transform 0.15s ease, filter 0.15s ease;
     }
     .ar-button:active { transform: scale(0.9); filter: brightness(1.2); }
@@ -36,7 +30,7 @@
   </style>
 </head>
 <body>
-  <!-- AR Scene -->
+  <!-- pages/domesticanimals/cow.html -->
   <a-scene
     id="ar-scene"
     mindar-image="imageTargetSrc: ../../mind/domesticanimals/cow.mind; autoStart: true;"
@@ -48,6 +42,9 @@
     <a-assets>
       <a-asset-item id="model" src="../../models/domesticanimals/cow.glb"></a-asset-item>
       <audio id="sound" src="../../audio/domesticanimals/cow.mp3" preload="auto"></audio>
+
+      <!-- German pronunciation audio -->
+      <audio id="soundGerman" src="../../audio/domesticanimals/cow_german.mp3" preload="auto"></audio>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -63,17 +60,16 @@
     </a-entity>
   </a-scene>
 
-  <!-- Back Button -->
   <div class="back-button">
     <a href="../domesticanimals.html">
       <button id="backBtn" class="ar-button" style="background-image: url('../../button/back.png');"></button>
     </a>
   </div>
 
-  <!-- Action Buttons -->
   <div class="button-container" style="display: none;">
     <button id="animateBtn" class="ar-button" style="background-image: url('../../button/animate.png');"></button>
     <button id="audioBtn" class="ar-button" style="background-image: url('../../button/audio.png');"></button>
+    <button id="germanBtn" class="ar-button" style="background-image: url('../../button/german.png');"></button>
   </div>
 
   <script>
@@ -81,16 +77,18 @@
       const target = document.querySelector('#target-entity');
       const model = document.querySelector('#animated-model');
       const sound = document.querySelector('#sound');
+      const soundGerman = document.querySelector('#soundGerman');
+
       const animateBtn = document.querySelector('#animateBtn');
       const audioBtn = document.querySelector('#audioBtn');
+      const germanBtn = document.querySelector('#germanBtn');
       const buttonContainer = document.querySelector('.button-container');
 
-      // Show buttons when target is found
+      // show/hide UI when marker visible
       target.addEventListener('targetFound', () => { buttonContainer.style.display = 'flex'; });
-      // Hide buttons when target is lost
       target.addEventListener('targetLost', () => { buttonContainer.style.display = 'none'; });
 
-      // Prevent multiple animations
+      // lock to prevent overlapping animations
       let isAnimating = false;
 
       animateBtn.addEventListener('click', () => {
@@ -108,7 +106,6 @@
           loop: 'false'
         });
 
-        // Reset after animation completes
         setTimeout(() => {
           model.removeAttribute('animation');
           model.setAttribute('rotation', '0 0 0');
@@ -117,10 +114,16 @@
         }, 4200);
       });
 
-      // Replay audio
+      // English/main audio
       audioBtn.addEventListener('click', () => {
         sound.currentTime = 0;
         sound.play();
+      });
+
+      // German pronunciation
+      germanBtn.addEventListener('click', () => {
+        soundGerman.currentTime = 0;
+        soundGerman.play();
       });
     });
   </script>

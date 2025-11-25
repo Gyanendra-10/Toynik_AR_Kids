@@ -42,6 +42,9 @@
     <a-assets>
       <a-asset-item id="model" src="../../models/domesticanimals/camel.glb"></a-asset-item>
       <audio id="sound" src="../../audio/domesticanimals/camel.mp3" preload="auto"></audio>
+
+      <!-- NEW German pronunciation audio -->
+      <audio id="soundGerman" src="../../audio/domesticanimals/camel_german.mp3" preload="auto"></audio>
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -60,6 +63,9 @@
   <div class="button-container" style="display: none;">
     <button id="animateBtn" class="ar-button" style="background-image: url('../../button/animate.png');"></button>
     <button id="audioBtn" class="ar-button" style="background-image: url('../../button/audio.png');"></button>
+
+    <!-- NEW German spelling button -->
+    <button id="germanBtn" class="ar-button" style="background-image: url('../../button/german.png');"></button>
   </div>
 
   <script>
@@ -67,11 +73,15 @@
       const target = document.querySelector('#target-entity');
       const model = document.querySelector('#animated-model');
       const sound = document.querySelector('#sound');
+      const soundGerman = document.querySelector('#soundGerman');
+
       const animateBtn = document.querySelector('#animateBtn');
       const audioBtn = document.querySelector('#audioBtn');
+      const germanBtn = document.querySelector('#germanBtn');
+
       const buttonContainer = document.querySelector('.button-container');
 
-      // show/hide UI when marker visible
+      // Show/hide UI when marker visible
       target.addEventListener('targetFound', () => { buttonContainer.style.display = 'flex'; });
       target.addEventListener('targetLost', () => { buttonContainer.style.display = 'none'; });
 
@@ -93,7 +103,6 @@
           loop: 'false'
         });
 
-        // reset and unlock after animation finishes (buffer included)
         setTimeout(() => {
           model.removeAttribute('animation');
           model.setAttribute('rotation', '0 0 0');
@@ -102,10 +111,16 @@
         }, 4200);
       });
 
-      // replay audio
+      // replay English/main audio
       audioBtn.addEventListener('click', () => {
         sound.currentTime = 0;
         sound.play();
+      });
+
+      // NEW German pronunciation playback
+      germanBtn.addEventListener('click', () => {
+        soundGerman.currentTime = 0;
+        soundGerman.play();
       });
     });
   </script>
