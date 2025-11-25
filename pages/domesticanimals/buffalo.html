@@ -48,6 +48,10 @@
     <a-assets>
       <a-asset-item id="model" src="../../models/domesticanimals/buffalo.glb"></a-asset-item>
       <audio id="sound" src="../../audio/domesticanimals/buffalo.mp3" preload="auto"></audio>
+
+      <!-- NEW: German pronunciation audio -->
+      <audio id="soundGerman" src="../../audio/domesticanimals/buffalo_german.mp3" preload="auto"></audio>
+      <!-- If your file name is different, just change the src above -->
     </a-assets>
 
     <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
@@ -74,15 +78,22 @@
   <div class="button-container" style="display: none;">
     <button id="animateBtn" class="ar-button" style="background-image: url('../../button/animate.png');"></button>
     <button id="audioBtn" class="ar-button" style="background-image: url('../../button/audio.png');"></button>
+
+    <!-- NEW: German flag / German pronunciation button -->
+    <button id="germanBtn" class="ar-button" style="background-image: url('../../button/german.png');"></button>
+    <!-- Change german.png to whatever your actual icon file is -->
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector('#target-entity');
       const model = document.querySelector('#animated-model');
-      const sound = document.querySelector('#sound');
+      const sound = document.querySelector('#sound');               // normal (English/primary) sound
+      const soundGerman = document.querySelector('#soundGerman');   // German pronunciation
+
       const animateBtn = document.querySelector('#animateBtn');
       const audioBtn = document.querySelector('#audioBtn');
+      const germanBtn = document.querySelector('#germanBtn');
       const buttonContainer = document.querySelector('.button-container');
 
       // Show buttons when target is found
@@ -117,10 +128,17 @@
         }, 4200);
       });
 
-      // Replay audio
+      // Replay main audio
       audioBtn.addEventListener('click', () => {
         sound.currentTime = 0;
         sound.play();
+      });
+
+      // NEW: German pronunciation button
+      germanBtn.addEventListener('click', () => {
+        if (!soundGerman) return;
+        soundGerman.currentTime = 0;
+        soundGerman.play();
       });
     });
   </script>
